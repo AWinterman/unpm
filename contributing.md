@@ -18,15 +18,18 @@ so that others do not duplicate your effort.
 
 If you are uncertain how to proceed, feel free to comment on the issue with a
 development plan you intend to follow. The maintainers will review it and
-provide guidance as requested or required. If there is a new feature you would
-like to see, open a new issue, and describe the feature in English. Providing a
-sample API for the new feature is also very helpful. 
+provide guidance as requested or required. 
 
-Before you start coding against &mu;npm, ask yourself if the feature could live
-as a stand alone library or script. If it can, create new repository for the
-project. When you are ready, publish it to npm. Then submit a PR which updates
+If there is a new feature you would like to see, open a new issue, describe the
+feature in English, and provide a sample of API usage if your proposal would
+change it. Before you start, ask yourself if the feature could live as a stand
+alone library or script, e.g. the [clone-packages][clone]  If it can, create
+new repository for the project. When you are ready, publish it to a public
+registry, preferably [npmjs.org](npmjs.org). Then submit a PR which updates
 &mu;npm's package.json to include the new dependency, and update the
-appropriate modules.
+appropriate modules to add the feature.
+
+[clone]: https://www.npmjs.org/package/clone-packages.
 
 ## You've written code to address the issue...
 
@@ -34,14 +37,15 @@ All contributions should made via [pull
 request](https://help.github.com/articles/using-pull-requests) and review.
 After a pull request is made other contributors will offer feedback. They will
 approve your changes by leaving a +1 or an emoji as a comment on the PR. Once
-you have two +1s from two different maintainers, your changes will be merged.
+you have two +1s from two different maintainers, the maintainers will merge
+your changes.
 
 If you've never made a PR before, you'll need to create a GitHub account, and
-read up on GitHub's instructions on
+read GitHub's instructions on
 [forking](https://help.github.com/articles/fork-a-repo) and [pull
 requests](https://help.github.com/articles/using-pull-requests). Reading up on
-the [git source control management system](http://git-scm.com/book) could also
-be helpful.
+the [git source control management system](http://git-scm.com/book) is also a
+good idea.
 
 Pull requests should be targeted at &mu;npm's `master` branch. Before pushing
 to your GitHub repo and issuing the pull request, please run the full test
@@ -50,13 +54,14 @@ failures *before* asking for review. If you introduce code without tests, be
 prepared to justify why it does not or cannot be tested. 
 
 If you have modified the API, make sure to update the documentation
-accordingly. Make a note of the API in the PR description so the maintainers
-can update the [semantic version](http://semver.org/) appropriately. 
+accordingly. Make a note of the API changes in the PR description as well, to
+call out that the maintainers will have to update at least the minor version
+number. (&mu;npm is [semantically versioned](http://semver.org/).)
 
-We expect your code to pass our style guide, handily encoded by the javascript
-library, [jsl](https://www.npmjs.org/package/jsl). This is enforced
-by a [test](./test/style.test.js') which runs the linter on all code which can
-be required from the entry point, [./index.js](./index.js).
+We expect your code to pass our style guide, handily encoded by the package,
+[jsl](https://www.npmjs.org/package/jsl). This is enforced by a
+[test](./test/style.test.js') which runs the linter on all code which is every
+run by a relative require from [./index.js](./index.js).
 
 It is still up to you to verify any style on scripts, tests, or commands you
 add. Before submitting your PR, `npm install -g jsl`, and then run `jsl` on all

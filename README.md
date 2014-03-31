@@ -64,10 +64,10 @@ from one npm registry to another.
 Install with `npm install unpm`. 
 
 Now `require('unpm')` returns a function which takes a `config` object, and
-constructs a &mu;npm service, with attributes as defined in [Instance](#instance).
+constructs a &mu;npm service, with attributes as defined in [#Instance](#instance).
 
 The `config` object can have all the keys defined in
-[Configuration](#configuration), with the following additions:
+[#Configuration](#configuration), with the following additions:
 
 - `config.backend`: Specifies the persistence layer for &mu;npm. See the default
   [file-system backend][fs-back] or the alternative [levelDB
@@ -89,16 +89,14 @@ The &mu;npm service instance has the following attributes:
 - `sessions`: The `config.sessions` object.
 - `server`: An [HTTP
   server](http://nodejs.org/api/http.html#http_class_http_server) instance
-  which will service the npm api, and the additional resources defined for
-  &mu;npm.
+  which serves resources for the npm API.
 - `log`: The logging object. Has methods `info` and `error`, which should
-  support the [Bunyan logging
-  API](https://github.com/trentm/node-bunyan#log-method-api).
+  support the same API as [Bunyan's logging methods][Bunyan API].
 - `backend`: The &mu;npm backend. This is a module which encapsulates
   persistence logic for &mu;npm. It defaults to a
   [file-system backend][fs-back], but is of course configurable.
 - `router`: The router which defines what logic to invoke for a given requests.
-  It is an instance of [&mu;npm-router](https://github.com/hayes/unpm-router)
+  It is [&mu;npm-router](https://github.com/hayes/unpm-router) instance.
 - `config`: The `config` object passed to the constructor.
 - `handler`: The handler for the [`request` event](http://nodejs.org/api/http.html#http_event_request).
 
@@ -115,16 +113,15 @@ You can set the following values as configuration options:
   `config.host` is passed directly to
   [`url.format`](http://nodejs.org/api/url.html#url_url_format_urlobj)
 
-  Describes a base URI at which &mu;npm's resources will be made
-  available, modulo package name. The URI (with package name) is written to
-  each package's metadata. At current this simply sets the URI (modulo name and
-  version) at which package tarballs are available. 
+  It describes a base URI at which &mu;npm's resources will be made available,
+  modulo package name. The URI (with package name) is written to each package's
+  metadata, setting the URI at which the package's tarball is available. 
 
-  Note: that this may or may not reflect the URI at which &mu;npm's resources
-  will be made available.  The intent is to allow &mu;npm to sit behind a proxy,
-  writing its data to a location from which they might be served by a light,
-  fast static asset server. The proxy can route requests to host to the static
-  server, and requests to `unpm`.
+  > Note: that this may or may not reflect the URI at which &mu;npm's resources
+  > will be made available.  The intent is to allow &mu;npm to sit behind a proxy,
+  > writing its data to a location from which they might be served by a light,
+  > fast static asset server. The proxy can route requests to host to the static
+  > server, and requests to `unpm`.
 
   Defaults to:
 
@@ -137,18 +134,9 @@ You can set the following values as configuration options:
   }
   ```
 
-  Package's metadata will include a url that looks like the return value of
-  `make_filename`:
-
-  ```javascript
-  var url = require('url') // node's url lib
-  
-  function make_filename(name, version) {
-    var filename = name + '-' + version + '.tgz'
-    
-    return url.format(config.host) + path.join('/', name, '-','filename')
-  }
-  ```
+  Given a the default `host` parameter, a package, `example`, with version
+  `1.0.0` would be available at:
+  `http://localhost:8123/example/-/example-1.0.0.tgz`
 
 #### `config.base_pathname`
 
@@ -156,8 +144,9 @@ You can set the following values as configuration options:
 
 #### `config.crypto`
 
-  An object to be passed to require('[password-hash][password-hash]').generate
-  as its second argument, when hashing passwords.
+  An object to be passed to
+  `require('[password-hash][password-hash]').generate` as its second argument,
+  when hashing passwords.
 
 #### `config.verbose`
 
@@ -182,3 +171,4 @@ You can set the following values as configuration options:
 [fs-back]: https://github.com/jarofghosts/unpm-fs-backend
 [leveldb-back]: https://github.com/hayes/unpm-leveldb
 [password-hash]: https://www.npmjs.org/package/password-hash
+[Bunyan API]: https://github.com/trentm/node-bunyan#log-method-api
